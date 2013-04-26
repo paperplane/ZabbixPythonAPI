@@ -39,9 +39,9 @@ def get_options():
 
     delete_parser = subparsers.add_parser('delete', help='Remove zabbix object')
     delete_parser.add_argument('object', action='store',choices=('user','host','item'),help='The zabbix object to remove')
-    delete_parser.add_argument('-i','--userid',action='append',type=eval,help='ids of the user to remove')
-    delete_parser.add_argument('-i','--hostid',action='append',type=eval,help='ids of the host to remove')
-    delete_parser.add_argument('-i','--itemid',action='append',type=str,help='ids of the item to remove')
+    delete_parser.add_argument('--userid',action='append',type=eval,help='ids of the user to remove')
+    delete_parser.add_argument('--hostid',action='append',type=eval,help='ids of the host to remove')
+    delete_parser.add_argument('--itemid',action='append',type=str,help='ids of the item to remove')
 
     get_parser = subparsers.add_parser('get', help='Get zabbix object information')
     get_parser.add_argument('object', action='store',choices=('user','host','item'),help='Zabbix object to get')
