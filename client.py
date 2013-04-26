@@ -30,12 +30,9 @@ def get_options():
     subparsers = parser.add_subparsers(help='method support currently',dest='method')
 
     create_parser = subparsers.add_parser('create',help='Create zabbix object')
-    create_parser.add_argument('object',action='store',choices=('user','host'),help='zabbix object to create')
-    create_parser.add_argument('--passwd',action='store',type=str,help='new user password')
-    create_parser.add_argument('--usrgrps',action='append',type=eval,help='group that user belong to')
-    create_parser.add_argument('--groups',action='append',type=eval,help='host groups to add the host to')
-    create_parser.add_argument('--interfaces',action='append',type=eval,help='interfaces of the host to be created')
-    create_parser.add_argument('--applications',action='append',type=str,help='applaications of the item to be created')
+    create_parser.add_argument('object',action='store',choices=('user','host','item'),help='zabbix object to create')
+    create_parser.add_argument('--params',action='store',type=eval,help='string of dict,attr must include as follows user: passwd and usrgrps,host: groups and interfaces,item: applications')
+
 
     delete_parser = subparsers.add_parser('delete', help='Remove zabbix object')
     delete_parser.add_argument('object', action='store',choices=('user','host','item'),help='The zabbix object to remove')
@@ -45,8 +42,8 @@ def get_options():
 
     get_parser = subparsers.add_parser('get', help='Get zabbix object information')
     get_parser.add_argument('object', action='store',choices=('user','host','item'),help='Zabbix object to get')
-    get_parser.add_argument('-o','--output',action='append',dest='output',help='choose attribute of the object to display')
-    get_parser.add_argument('-f','--filter',type=eval,dest='filter',help='filter for zabbix object in dict type')
+    get_parser.add_argument('--output',action='append',dest='output',help='choose attribute of the object to display')
+    get_parser.add_argument('--filter',type=eval,dest='filter',help='filter for zabbix object in dict type')
     
     parser.add_argument('--version', action='version',version = '%(prog)s 1.0')
     return parser
@@ -82,13 +79,13 @@ def main():
     except:
         print >> sys.stderr, 'method not support'
         sys.exit(1)
-   
+    
     if method == 'get':
         print func(output=options.output,filter=options.filter)
     elif method == 'delete':
         print func(userid=options.userid,hostid=options.hostid,itemid=options.itemid) 
     else:
-        func(passwd=options.passwd,usrgrps=options.usrgrps,groups=options.groups,interfaces=options.interfaces,applications=options.applications)
+        print func(**options.params)
 
 if __name__ == '__main__':
     main()
