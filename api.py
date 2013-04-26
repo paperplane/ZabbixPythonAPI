@@ -201,7 +201,7 @@ class _Executable(object):
 
 #=================TEST SECTION=================#
 def main():
-    api = APIClient(domain='http://monitor.ifeng.com',username='guestapi',password='guestapi')
+    api = APIClient(domain='http://monitor.example.com',username='api',password='api')
     api.login()
     print api.host.get(output=extend,filter={"host": ["Zabbix server","Linux server"]})
 
