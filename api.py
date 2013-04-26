@@ -203,8 +203,7 @@ class _Executable(object):
 def main():
     api = APIClient(domain='http://monitor.ifeng.com',username='guestapi',password='guestapi')
     api.login()
-    #dicts = {"output": "extend","filter": {"host": ["Zabbix server","Linux server"]}}
-    print api.host.get(filter={"host": ["Zabbix server","Linux server"]})
+    print api.host.get(output=extend,filter={"host": ["Zabbix server","Linux server"]})
 
 if __name__ == '__main__':
     main()

@@ -16,9 +16,9 @@ def auth_opt():
     parser = argparse.ArgumentParser(add_help=False)
 
     group = parser.add_argument_group('authentication')
-    group.add_argument('-s','--server',action='store',default='http://monitor.ifeng.com',help='zabbix server url')
-    group.add_argument('-u','--user',action='store',default='guestapi',help='zabbix user name')
-    group.add_argument('-p','--password',action='store',default='guestapi',help='zabbix user password')
+    group.add_argument('-s','--server',action='store',default='http://monitor.example.com',help='zabbix server url')
+    group.add_argument('-u','--user',action='store',default='api',help='zabbix user name')
+    group.add_argument('-p','--password',action='store',default='api',help='zabbix user password')
     return parser
 
 def get_options():
