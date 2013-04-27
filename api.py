@@ -76,6 +76,7 @@ def do_post(client,operation,method,*args,**kw):
         params = args
     else:
         params = kw
+    print params
     request = urllib2.Request(client.url,client.json_obj(method+'.'+operation,params),headers)
     try:
         result = urllib2.urlopen(request)
@@ -181,7 +182,7 @@ class _Callable(object):
         self.client = client
         self.method = method
     def __getattr__(self,attr):
-        operations = ['get','create']
+        operations = ['create','delete','exists','get','getobjects','isreadable','iswritable','massadd','massremove','massupdate','update']
         if attr in operations:
             return _Executable(self.client,attr,self.method)
         method = '%s.%s'%(self.method,attr)
@@ -203,7 +204,7 @@ class _Executable(object):
 def main():
     api = APIClient(domain='http://monitor.example.com',username='api',password='api')
     api.login()
-    print api.host.get(output=extend,filter={"host": ["Zabbix server","Linux server"]})
+    print api.host.get(output=['hostid'],filter={"host": ["Zabbix server","Linux server"]})
 
 if __name__ == '__main__':
     main()
