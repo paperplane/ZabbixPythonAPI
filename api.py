@@ -11,6 +11,7 @@ Python Client SDK For Zabbix API
 import json 
 import urllib2
 import logging
+import pprint
 
 urllib2.socket.setdefaulttimeout(10)
 
@@ -204,7 +205,7 @@ class _Executable(object):
 def main():
     api = APIClient(domain='http://monitor.example.com',username='api',password='api')
     api.login()
-    print api.host.get(output=['hostid'],filter={"host": ["Zabbix server","Linux server"]})
-
+    res = api.host.get(output=['available','maintenance_type','maintenances','ipmi_username', 'snmp_disable_until'],filter={"host": ['caijingDBslave179','CMPP-16','CMPP-09']})
+    pprint.pprint(res,width=60) 
 if __name__ == '__main__':
     main()

@@ -11,6 +11,7 @@ import argparse
 import api
 import sys
 from getpass import getpass
+from pprint import pprint
 
 def auth_opt():
     parser = argparse.ArgumentParser(add_help=False)
@@ -79,13 +80,15 @@ def main():
     except:
         print >> sys.stderr, 'method not support'
         sys.exit(1)
-    
+
+    result = []
     if method == 'get':
-        print func(output=options.output,filter=options.filter)
+        result = func(output=options.output,filter=options.filter)
     elif method == 'delete':
-        print func(userid=options.userid,hostid=options.hostid,itemid=options.itemid) 
+        result = func(userid=options.userid,hostid=options.hostid,itemid=options.itemid) 
     else:
-        print func(**options.params)
+        result = func(**options.params)
+    pprint(result,width=60)
 
 if __name__ == '__main__':
     main()
