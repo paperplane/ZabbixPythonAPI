@@ -80,3 +80,6 @@ Before We use these tools, try to set correct server,user and password in the cl
 
     zabbix create host --params '{"host": "Linux server","interfaces": [{"type": 1,"main": 1,"useip": 1,"ip": "192.168.3.1","dns": "","port": "10050"}],"groups": [{"groupid": "50" }],"templates": [{"templateid": "20045"}],"inventory": {"macaddress_a": "01234","macaddress_b": "56768"}}'
 
+##Example Usage##
+
+Add example. You Can Use this example in your projects. this example allows you add groups, hosts, items, graphs, screens simple, automatic and batch.
