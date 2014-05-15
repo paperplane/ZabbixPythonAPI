@@ -3,7 +3,7 @@ import re, subprocess
 
 class ScreenCreate():
     def __init__(self,  hostgroup, hostlist, proclist, itemlist, itemalias):
-        self.api = APIClient(domain='http://localhost',username='Admin',password='zabbix@sogou-inc.com')
+        self.api = APIClient(domain='http://localhost',username='Admin',password='Zabbix')
         self.api.login()
         self.itemvalue = {'test1':3,'test2':1} #item key => value unit
         self.hostgroup = hostgroup
