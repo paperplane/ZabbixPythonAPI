@@ -42,7 +42,7 @@ class ScreenCreate():
             interface[hostname] = api.hostinterface.get(hostids=hostdict[hostname],output="interfaceid")[0]['interfaceid']
         return (hostdict, interface)
 
-        
+
     def create_bulk_proc(self, hostdict, interface):
         """
         multi proc one graph
@@ -65,20 +65,20 @@ class ScreenCreate():
                     #keyname store in zabbix database
                     item_key = self.hostgroup + '.' + procname + '.' + itemname
 
-                    #create new item. query it if exist. then return item id. first check self.itemvalue if exists. 
+                    #create new item. query it if exist. then return item id. first check self.itemvalue if exists.
                     valuetype = self.itemvalue.get(itemname, 0)
-           
+
                     item = api.item.get(hostids=hostdict[hostname], search={"key_": item_key}, output=["itemid","name"])
                     if item:
                         itemid = item[0]["itemid"]
                         name = item[0]["name"]
-                        if name != itemdict[itemname]: 
+                        if name != itemdict[itemname]:
                             api.item.update(itemid=itemid, name=itemdict[itemname])
                             Logger().logger.info('Update Item Name: %s ' % itemname )
                     else:
                         itemid = api.item.create(name=itemdict[itemname],hostid=hostdict[hostname],key_=item_key,type=2,value_type=valuetype,interfaceid=interface[hostname],delay=60,history=14)['itemids'][0]
                         Logger().logger.info('Create New Item: %s ' % itemname )
-                    gitemlist.append({"itemid": itemid, "color": color}) 
+                    gitemlist.append({"itemid": itemid, "color": color})
                     itemidlist.append(itemid)
 
                 #create graph. one item with one graph. query it if exist. then return item id.
@@ -93,7 +93,7 @@ class ScreenCreate():
                 else:
                     graphid = api.graph.create(name=graphname, width=900, height=200, gitems=gitemlist)['graphids'][0]
                     Logger().logger.info("Create New Graph: %s " % itemname)
-                    
+
                 screenitemdict.setdefault(procid + '::' + itemname, []).append({"resourcetype": 0, "resourceid": graphid, "width": "500", "rowspan": 0, "colspan": 0, "heigth": "100", "x": str(x), "y": str(y)})
                 y += 1 # one row so alway x == 0
         return self.screen_create_or_update(screenitemdict)
@@ -132,14 +132,14 @@ class ScreenCreate():
                     #keyname store in zabbix database
                     item_key = self.hostgroup + '.' + procname + '.' + itemname
 
-                    #create new item. query it if exist. then return item id. first check self.itemvalue if exists. 
+                    #create new item. query it if exist. then return item id. first check self.itemvalue if exists.
                     valuetype = self.itemvalue.get(itemname, 0)
                     #itemid = api.item.get(hostids=hostdict[hostname], groupids=groupid, search={"name": itemdict[itemname] }, output="itemid")
                     item = api.item.get(hostids=hostdict[hostname], search={"key_": item_key}, output=["itemid","name"])
                     if item:
                         itemid = item[0]["itemid"]
                         name = item[0]["name"]
-                        if name != itemdict[itemname]: 
+                        if name != itemdict[itemname]:
                             api.item.update(itemid=itemid, name=itemdict[itemname])
                             Logger().logger.info('Update Item Name: %s ' % itemname )
                     else:
@@ -157,7 +157,7 @@ class ScreenCreate():
                     else:
                         graphid = api.graph.create(name=itemdict[itemname], width=900,height=200,gitems=[{"itemid": itemid, "color": "00AA00"}])['graphids'][0]
                         Logger().logger.info("Create New Graph: %s " % itemname)
-                    
+
                     screenitemdict.setdefault(procname + '::' + itemname, []).append({"resourcetype": 0, "resourceid": graphid, "width": "500", "rowspan": 0, "colspan": 0, "heigth": "100", "x": str(x), "y": str(y)})
                     y += 1 # one row so alway x == 0
         return self.screen_create_or_update(screenitemdict)
@@ -171,7 +171,7 @@ class DeleteScreen():
         self.hostlist = hostlist
         self.hostflag = hostflag
         self.hostname = hostname
-        
+
     def delete_single(self):
         api = self.api
         groupid = api.hostgroup.get(filter={"name":[self.hostgroup]})
@@ -209,9 +209,4 @@ class DeleteScreen():
             api.hostgroup.delete(groupid)
             Logger().logger.info("Delete Group Success: %s %s" % (self.hostgroup, self.hostname))
 
-        #returnstr = update_screen_list(hostgroup, hostlist, proclist, itemlist)
-        #if "Failed" in returnstr:
-        #    Logger().logger.error("Failed! Delete %s Then Update %s Failed!" % (hostname, hostgroup))
-        #    return "Failed! Delete Then Update Failed!"
-        #Logger().logger.info("Success! Delete %s Then Update %s Success!" % (hostname, hostgroup))
         return "Success! Delete Then Update Success!"
